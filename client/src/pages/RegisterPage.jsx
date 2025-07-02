@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
-import { Mail, Lock, User, Newspaper } from 'lucide-react';
+import axiosInstance from '@/utils/axiosInstance';
+import { Lock, Mail, Newspaper, User } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
@@ -22,7 +22,7 @@ const RegisterPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:5000/auth/register", formData);
+            const response = await axiosInstance.post("/auth/register", formData);
             if (response.data.token) {
                 toast.success("Account created successfully!");
                 login(response.data.token);

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
-import { Mail, Lock, Newspaper } from 'lucide-react';
+import axiosInstance from '@/utils/axiosInstance';
+import { Lock, Mail, Newspaper } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,7 +20,7 @@ const LoginPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:5000/auth/login", formData);
+            const response = await axiosInstance.post("/auth/login", formData);
             if (response.data.token) {
                 toast.success("Login successful!");
                 login(response.data.token);

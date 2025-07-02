@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(globalLimiter);
 
 // Routes
-app.use('/auth', authLimiter, require('./routes/auth'));
+app.use('/api/auth', authLimiter, require('./routes/auth'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/bookmarks', require('./routes/bookmarks'));
 app.use('/api/profile', require('./routes/profile'));
