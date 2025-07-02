@@ -17,6 +17,4 @@ app.use('/api/bookmarks', require('./routes/bookmarks'));
 app.use('/api/profile', require('./routes/profile'));
 app.use('/api/history', require('./routes/history'));
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
-});
+module.exports = app;
