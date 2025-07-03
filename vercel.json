@@ -15,12 +15,12 @@
     ],
     "rewrites": [
         {
-            "src": "/api/(.*)",
-            "dest": "/server/api.js"
+            "source": "/api/(.*)",
+            "destination": "/server/api.js"
         },
         {
-            "src": "/(.*)",
-            "dest": "/client/dist/index.html"
+            "source": "/(.*)",
+            "destination": "/client/dist/index.html"
         }
     ]
 }
