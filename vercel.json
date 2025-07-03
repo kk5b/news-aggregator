@@ -3,28 +3,24 @@
     "builds": [
         {
             "src": "server/api.js",
-            "use": "@vercel/node",
-            "config": {
-                "includeFiles": "server/**"
-            }
+            "use": "@vercel/node"
         },
         {
-            "src": "package.json",
+            "src": "client/package.json",
             "use": "@vercel/static-build",
             "config": {
-                "buildCommand": "cd client && npm install && npm run build",
-                "distDir": "client/dist"
+                "distDir": "dist"
             }
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/api/(.*)",
-            "dest": "/server/api.js"
+            "source": "/api/(.*)",
+            "destination": "server/api.js"
         },
         {
-            "src": "/(.*)",
-            "dest": "/client/dist/$1"
+            "source": "/((?!api/).*)",
+            "destination": "/index.html"
         }
     ]
 }
