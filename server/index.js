@@ -10,11 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(globalLimiter);
 
-// Routes
-app.use('/api/auth', authLimiter, require('./routes/auth'));
-app.use('/api/news', require('./routes/news'));
-app.use('/api/bookmarks', require('./routes/bookmarks'));
-app.use('/api/profile', require('./routes/profile'));
-app.use('/api/history', require('./routes/history'));
+
+app.use('/auth', authLimiter, require('./routes/auth'));
+app.use('/news', require('./routes/news'));
+app.use('/bookmarks', require('./routes/bookmarks'));
+app.use('/profile', require('./routes/profile'));
+app.use('/history', require('./routes/history'));
 
 module.exports = app;
