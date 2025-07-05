@@ -4,6 +4,8 @@ const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL + '/api',
 });
 
+// console.log("this is axiosInstance", axiosInstance);
+
 // This interceptor correctly adds the auth token to every request
 axiosInstance.interceptors.request.use(
     (config) => {
