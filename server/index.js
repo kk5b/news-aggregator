@@ -5,19 +5,21 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(globalLimiter);
-
-// CORS Configuration
+// --- DYNAMIC CORS CONFIGURATION ---
+const productionUrl = 'https://news-aggregator-two-gray.vercel.app';
 const allowedOrigins = [
-    'https://news-aggregator-two-gray.vercel.app/',
-    'http://localhost:5173'
+    productionUrl,
+    'http://localhost:5173' // For local development
 ];
 
 const corsOptions = {
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        // This regex will match your production URL AND any Vercel preview URL
+        // for this project (e.g., news-aggregator-....vercel.app)
+        const vercelPreviewRegex = /^https:\/\/news-aggregator-.*\.vercel\.app$/;
+
+        // Allow requests from the defined list or any matching Vercel preview URL
+        if (!origin || allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
@@ -26,6 +28,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(express.json());
+app.use(globalLimiter);
 
 // Routes must NOT have the /api prefix here
 app.use('/auth', authLimiter, require('./routes/auth'));
