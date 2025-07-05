@@ -32,6 +32,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(globalLimiter);
 
+app.get('/', (req, res) => {
+    res.send('Backend server is running!');
+});
 // Routes must NOT have the /api prefix here
 app.use('/auth', authLimiter, require('./routes/auth'));
 app.use('/news', require('./routes/news'));
