@@ -15,10 +15,10 @@ const allowedOrigins = [
 const corsOptions = {
     origin: (origin, callback) => {
         // This regex will match your production URL AND any Vercel preview URL
-        // for this project (e.g., news-aggregator-....vercel.app)
-        const vercelPreviewRegex = /^https:\/\/news-aggregator-.*\.vercel\.app$/;
+        // for this project (e.g., news-aggregator-two-gray-....vercel.app)
+        const vercelPreviewRegex = /^https:\/\/news-aggregator-two-gray-.*\.vercel\.app$/;
 
-        // Allow requests from the defined list or any matching Vercel preview URL
+        // Allow requests from the defined list, any matching Vercel preview URL, or tools like Postman (no origin)
         if (!origin || allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
             callback(null, true);
         } else {
@@ -28,14 +28,15 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use(globalLimiter);
 
+// Health check route for testing the server
 app.get('/', (req, res) => {
     res.send('Backend server is running!');
 });
-// Routes must NOT have the /api prefix here
+
+// Your API routes
 app.use('/auth', authLimiter, require('./routes/auth'));
 app.use('/news', require('./routes/news'));
 app.use('/bookmarks', require('./routes/bookmarks'));
