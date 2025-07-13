@@ -5,8 +5,28 @@ require('dotenv').config();
 
 const app = express();
 
-// --- Temporarily allow all origins for testing ---
-app.use(cors());
+// This tells Express to trust the headers set by Vercel's proxy
+app.set('trust proxy', 1);
+
+// --- Dynamic CORS Configuration ---
+const productionUrl = 'https://news-aggregator-two-gray.vercel.app';
+const allowedOrigins = [
+    productionUrl,
+    'http://localhost:5173' // For local development
+];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        const vercelPreviewRegex = /^https:\/\/news-aggregator-.*\.vercel\.app$/;
+        if (!origin || allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(globalLimiter);
