@@ -37,5 +37,5 @@ CREATE TABLE view_history (
         FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
--- Create an index on the view_history table for faster lookups
+-- Create an index on the view_history table for faster
 CREATE INDEX idx_view_history_user_id ON view_history (user_id);
